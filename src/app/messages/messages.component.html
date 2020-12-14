@@ -1,0 +1,37 @@
+<div class="row" *ngIf="messages?.length===0">
+    <h3>No messages</h3>
+</div>
+
+<div class="row" *ngIf="messages?.length>0">
+    <table class="table table-hover" style="cursor: pointer;">
+        <tr>
+            <th style="width: 40%;">Message</th>
+            <th style="width: 30%;">From / To </th>
+            <th style="width: 30%;">Sent / Received</th>
+        </tr>
+        <tr [hidden]="loading" *ngFor="let message of messages" routerLink='{{message.senderEmail==user.email ? 
+            "/nomads/"+message.recipientEmail : "/nomads/"+message.senderEmail}}' [queryParams]='{tab: 2}'>
+            <td>{{message.cOntent}}</td>
+            <td>
+                <div *ngIf="message.senderEmail==user.email">
+                    <img class="img-circle rounded-circle mr-2"
+                        src="{{message.recipientPhotoUrl || '../../../../../assets/user.png'}}">
+                    <strong>{{message.recipientFullName}}</strong>
+                </div>
+                <div *ngIf="message.recipientEmail==user.email">
+                    <img class="img-circle rounded-circle mr-2"
+                        src="{{message.senderPhotoUrl || '../../../../../assets/user.png'}}">
+                    <strong>{{message.senderFullName}}</strong>
+                </div>
+            </td>
+            <td>{{message.messageSent | timeago}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="pagination && !loading">
+    <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" previousText="&lsaquo;" nextText="&rsaquo;"
+        firstText="&laquo;" [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
+        (pageChanged)="pageChanged($event)" lastText="&raquo;">
+    </pagination>
+</div>

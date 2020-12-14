@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" [routerLink]="['/']">Nomads</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- <div class="collapse navbar-collapse" id="navbarCollapse"> -->
+        <ul class="navbar-nav mr-auto">
+            <ng-container *ngIf="accountService.currentUser$ | async">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/nomads']" routerLinkActive='active'>Nomads</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/routePath']" routerLinkActive='active'>Travels</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/messages']" routerLinkActive='active'>Messages</a>
+                </li>
+                <li class="nav-item" *appHasRole='["Admin"]'>
+                    <a class="nav-link" [routerLink]="['/admin']" routerLinkActive='active'>Admin</a>
+                </li>
+            </ng-container>
+        </ul>
+
+        <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
+            <img src="{{user.photoUrl || '../../../../../assets/user.png'}}" class="img-circle rounded-circle">
+            <a class="dropdown-toggle text-light ml-2" dropdownToggle>Welcome {{user.firstName | titlecase}}</a>
+            <div class="dropdown-menu mt-3" *dropdownMenu>
+                <a class="dropdown-item" routerLink='/nomad/edit'>Edit Profile</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" (click)="logout()">Logout</a>
+            </div>
+        </div>
+
+        <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" (ngSubmit)="login()"
+            autocomplete="off" class="form-inline mt-2 mt-md-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Email" [(ngModel)]="model.email" name="email">
+            <input class="form-control mr-sm-2" type="password" placeholder="Password" [(ngModel)]="model.password"
+                name="password">
+            <button class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
+        </form>
+    </div>
+    <!-- </div> -->
+</nav>

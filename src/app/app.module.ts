@@ -1,18 +1,75 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NavComponent } from './nav/nav.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
+import { RegisterComponent } from './register/register.component';
+import { NomadsListComponent } from './nomads/nomads-list/nomads-list.component';
+import { NomadsDetailComponent } from './nomads/nomads-detail/nomads-detail.component';
+import { MessagesComponent } from './messages/messages.component';
+import { SharedModule } from './_modules/shared.module';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
+import { NomadCardComponent } from './nomads/nomad-card/nomad-card.component';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { NomadEditComponent } from './nomads/nomad-edit/nomad-edit.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { PhotoEditorComponent } from './nomads/photo-editor/photo-editor.component';
+import { TextInputComponent } from './_forms/text-input/text-input.component';
+import { DateInputComponent } from './_forms/date-input/date-input.component';
+import { NomadMessagesComponent } from './nomads/nomad-messages/nomad-messages.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './_directives/has-role.directive';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
+import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavComponent,
+    HomeComponent,
+    RegisterComponent,
+    NomadsListComponent,
+    NomadsDetailComponent,
+    MessagesComponent,
+    NotFoundComponent,
+    ServerErrorComponent,
+    TestErrorsComponent,
+    NomadCardComponent,
+    NomadEditComponent,
+    PhotoEditorComponent,
+    TextInputComponent,
+    DateInputComponent,
+    NomadMessagesComponent,
+    AdminPanelComponent,
+    HasRoleDirective,
+    UserManagementComponent,
+    RolesModalComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    SharedModule,
+    NgxSpinnerModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

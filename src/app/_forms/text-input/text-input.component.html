@@ -1,0 +1,24 @@
+<div class="form-group">
+    <input type={{type}} class="form-control" [class.is-invalid]="ngControl.touched && ngControl.invalid"
+        [formControl]="ngControl.control" placeholder={{label}}>
+    <div *ngIf="ngControl.control.errors?.required" class="invalid-feedback">Please enter {{label}}</div>
+    <div *ngIf="ngControl.control.errors?.minlength" class="invalid-feedback">
+        {{label}} must be at least {{ngControl.control.errors.minlength['requiredLength']}}</div>
+    <div *ngIf="ngControl.control.errors?.maxlength" class="invalid-feedback">
+        {{label}} must be at most {{ngControl.control.errors.maxlength['requiredLength']}}</div>
+    <div *ngIf="ngControl.control.errors?.isMatching" class="invalid-feedback">
+        Passwords do not match</div>
+    <ng-container *ngIf="!ngControl.control.errors?.minlength && !ngControl.control.errors?.maxlength">
+        <div *ngIf="ngControl.control.errors?.noUpper" class="invalid-feedback">
+            Password must have at least one uppercase letter</div>
+        <div *ngIf="ngControl.control.errors?.noLower" class="invalid-feedback">
+            Password must have at least one lowercase letter</div>
+        <div *ngIf="ngControl.control.errors?.noDigit" class="invalid-feedback">
+            Password must have at least one digit</div>
+        <div *ngIf="ngControl.control.errors?.noSpecialCharacter" class="invalid-feedback">
+            Password must have at least one special character</div>
+    </ng-container>
+    <div *ngIf="ngControl.control.errors?.isInvalidRgx" class="invalid-feedback">
+        Invalid email pattern</div>
+
+</div>
